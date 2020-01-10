@@ -74,7 +74,7 @@ CAMLprim value lwt_unix_read_job(value val_fd, value val_string,
     job->error_code = 0;
     job->string = val_string;
     job->offset = Long_val(val_offset);
-    caml_register_generational_global_root(&(job->string));
+    caml_register_dyn_global((void*)&(job->string));
     return lwt_unix_alloc_job(&(job->job));
 }
 #endif

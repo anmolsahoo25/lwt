@@ -10,6 +10,7 @@
 #include <caml/alloc.h>
 #include <caml/mlvalues.h>
 #include <caml/unixsupport.h>
+#include <caml/memory.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>

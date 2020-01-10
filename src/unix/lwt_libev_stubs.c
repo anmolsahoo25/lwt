@@ -21,6 +21,7 @@
 #include <caml/memory.h>
 #include <caml/mlvalues.h>
 #include <caml/signals.h>
+#include <caml/globroots.h>
 #include <ev.h>
 
 /* +-----------------------------------------------------------------+
@@ -149,7 +150,7 @@ static value lwt_libev_io_init(struct ev_loop *loop, int fd, int event,
   Ev_io_val(result) = watcher;
   /* Store the callback in the watcher, and register it as a root */
   watcher->data = (void *)callback;
-  caml_register_generational_global_root((value *)(&(watcher->data)));
+  caml_register_dyn_global((void*)(&(watcher->data)));
   /* Start the event */
   ev_io_start(loop, watcher);
   CAMLreturn(result);
@@ -200,7 +201,7 @@ CAMLprim value lwt_libev_timer_init(value loop, value delay, value repeat,
   Ev_timer_val(result) = watcher;
   /* Store the callback in the watcher, and register it as a root */
   watcher->data = (void *)callback;
-  caml_register_generational_global_root((value *)(&(watcher->data)));
+  caml_register_dyn_global((void*)(&(watcher->data)));
   /* Start the event */
   ev_timer_start(ev_loop, watcher);
   CAMLreturn(result);

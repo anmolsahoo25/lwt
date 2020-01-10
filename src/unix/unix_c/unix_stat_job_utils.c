@@ -26,43 +26,43 @@ value copy_stat(int use_64, struct stat *buf)
                              (NANOSEC(buf, c) / 1000000000.0));
     offset = use_64 ? caml_copy_int64(buf->st_size) : Val_int(buf->st_size);
     v = caml_alloc_small(12, 0);
-    Field(v, 0) = Val_int(buf->st_dev);
-    Field(v, 1) = Val_int(buf->st_ino);
+    Store_field(v, 0, Val_int(buf->st_dev));
+    Store_field(v, 1, Val_int(buf->st_ino));
     switch (buf->st_mode & S_IFMT) {
         case S_IFREG:
-            Field(v, 2) = Val_int(0);
+            Store_field(v, 2, Val_int(0));
             break;
         case S_IFDIR:
-            Field(v, 2) = Val_int(1);
+            Store_field(v, 2, Val_int(1));
             break;
         case S_IFCHR:
-            Field(v, 2) = Val_int(2);
+            Store_field(v, 2, Val_int(2));
             break;
         case S_IFBLK:
-            Field(v, 2) = Val_int(3);
+            Store_field(v, 2, Val_int(3));
             break;
         case S_IFLNK:
-            Field(v, 2) = Val_int(4);
+            Store_field(v, 2, Val_int(4));
             break;
         case S_IFIFO:
-            Field(v, 2) = Val_int(5);
+            Store_field(v, 2, Val_int(5));
             break;
         case S_IFSOCK:
-            Field(v, 2) = Val_int(6);
+            Store_field(v, 2, Val_int(6));
             break;
         default:
-            Field(v, 2) = Val_int(0);
+            Store_field(v, 2, Val_int(0));
             break;
     }
-    Field(v, 3) = Val_int(buf->st_mode & 07777);
-    Field(v, 4) = Val_int(buf->st_nlink);
-    Field(v, 5) = Val_int(buf->st_uid);
-    Field(v, 6) = Val_int(buf->st_gid);
-    Field(v, 7) = Val_int(buf->st_rdev);
-    Field(v, 8) = offset;
-    Field(v, 9) = atime;
-    Field(v, 10) = mtime;
-    Field(v, 11) = ctime;
+    Store_field(v, 3, Val_int(buf->st_mode & 07777));
+    Store_field(v, 4, Val_int(buf->st_nlink));
+    Store_field(v, 5, Val_int(buf->st_uid));
+    Store_field(v, 6, Val_int(buf->st_gid));
+    Store_field(v, 7, Val_int(buf->st_rdev));
+    Store_field(v, 8, offset);
+    Store_field(v, 9, atime);
+    Store_field(v, 10, mtime);
+    Store_field(v, 11, ctime);
     CAMLreturn(v);
 }
 

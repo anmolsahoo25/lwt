@@ -51,11 +51,11 @@ static value convert_addrinfo(struct addrinfo *a)
     vcanonname =
         caml_copy_string(a->ai_canonname == NULL ? "" : a->ai_canonname);
     vres = caml_alloc_small(5, 0);
-    Field(vres, 0) = cst_to_constr(a->ai_family, socket_domain_table, 3, 0);
-    Field(vres, 1) = cst_to_constr(a->ai_socktype, socket_type_table, 4, 0);
-    Field(vres, 2) = Val_int(a->ai_protocol);
-    Field(vres, 3) = vaddr;
-    Field(vres, 4) = vcanonname;
+    Store_field(vres, 0, cst_to_constr(a->ai_family, socket_domain_table, 3, 0));
+    Store_field(vres, 1, cst_to_constr(a->ai_socktype, socket_type_table, 4, 0));
+    Store_field(vres, 2, Val_int(a->ai_protocol));
+    Store_field(vres, 3, vaddr);
+    Store_field(vres, 4, vcanonname);
     CAMLreturn(vres);
 }
 
@@ -76,8 +76,8 @@ static value result_getaddrinfo(struct job_getaddrinfo *job)
         for (r = job->info; r; r = r->ai_next) {
             e = convert_addrinfo(r);
             v = caml_alloc_small(2, 0);
-            Field(v, 0) = e;
-            Field(v, 1) = vres;
+            Store_field(v, 0, e);
+            Store_field(v, 1, vres);
             vres = v;
         }
     }

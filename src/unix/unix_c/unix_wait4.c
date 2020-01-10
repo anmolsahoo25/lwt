@@ -45,15 +45,15 @@ static value alloc_process_status(int status)
 
     if (WIFEXITED(status)) {
         st = caml_alloc_small(1, TAG_WEXITED);
-        Field(st, 0) = Val_int(WEXITSTATUS(status));
+        Store_field(st, 0, Val_int(WEXITSTATUS(status)));
     } else if (WIFSTOPPED(status)) {
         st = caml_alloc_small(1, TAG_WSTOPPED);
-        Field(st, 0) =
-            Val_int(caml_rev_convert_signal_number(WSTOPSIG(status)));
+        Store_field(st, 0, 
+            Val_int(caml_rev_convert_signal_number(WSTOPSIG(status))));
     } else {
         st = caml_alloc_small(1, TAG_WSIGNALED);
-        Field(st, 0) =
-            Val_int(caml_rev_convert_signal_number(WTERMSIG(status)));
+        Store_field(st, 0, 
+            Val_int(caml_rev_convert_signal_number(WTERMSIG(status))));
     }
     return st;
 }
